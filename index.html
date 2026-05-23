@@ -12,7 +12,6 @@
             --success: #4ade80;
             --text: #f8fafc;
             --muted: #475569;
-            --apk-color: #f59e0b;
         }
 
         body {
@@ -118,7 +117,7 @@
             box-sizing: border-box;
         }
 
-        button, .apk-link {
+        button {
             display: block; 
             box-sizing: border-box; 
             background-color: var(--primary); 
@@ -131,18 +130,10 @@
             cursor: pointer; 
             width: 100%; 
             margin-bottom: 10px;
-            text-decoration: none; 
-            text-align: center;
         }
         
         .btn-green { background-color: var(--success); }
-        .btn-apk { 
-            background: var(--apk-color); 
-            margin-top: 15px;
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
-        }
 
-        /* Tam olarak istediğin net ve kısa versiyon formatı */
         .version {
             position: fixed; left: 15px; bottom: 15px; font-size: 0.75rem;
             color: #475569; font-weight: bold; z-index: 9999;
@@ -171,8 +162,6 @@
     
     <button id="test-btn" onclick="runPreciseEngine()">🚀 İnternet Hızını Doğrula</button>
     <button class="btn-green" onclick="deepSystemClean()">🧹 Cihaz Hafızasını & Paketleri Temizle</button>
-    
-    <a href="app-release.apk" class="apk-link btn-apk" download>📲 Uygulamayı APK Olarak Telefona Yükle</a>
 </div>
 
 <span class="version">1.0</span>
