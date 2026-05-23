@@ -1,9 +1,10 @@
+```html
 <!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Çipil Master OS - v1.3 Hiper Çekirdek</title>
+    <title>Çipil Master OS - v1.4</title>
     <style>
         :root {
             --bg-color: #05070f;
@@ -41,56 +42,262 @@
             border: 1px solid #1e293b;
         }
 
-        h1 { font-size: 1.35rem; margin: 0 0 20px 0; color: #fff; text-shadow: 0 0 12px var(--primary); }
-        h2 { font-size: 1rem; color: var(--primary); margin: 15px 0 10px 0; text-align: left; display: flex; align-items: center; gap: 5px;}
+        h1 { 
+            font-size: 1.35rem; 
+            margin: 0 0 20px 0; 
+            color: #fff; 
+            text-shadow: 0 0 12px var(--primary); 
+        }
 
-        /* SEKMELİ YÖNETİM */
-        .tab-menu { display: flex; gap: 5px; margin-bottom: 15px; background: #020617; padding: 4px; border-radius: 10px; }
-        .tab-btn { flex: 1; padding: 8px; font-size: 0.75rem; font-weight: bold; background: transparent; color: #64748b; border: none; border-radius: 6px; cursor: pointer; }
-        .tab-btn.active { background: var(--primary); color: #05070f; }
+        h2 { 
+            font-size: 1rem; 
+            color: var(--primary); 
+            margin: 15px 0 10px 0; 
+            text-align: left; 
+            display: flex; 
+            align-items: center; 
+            gap: 5px;
+        }
+
+        /* Sekmeli Arayüz */
+        .tab-menu { 
+            display: flex; 
+            gap: 5px; 
+            margin-bottom: 15px; 
+            background: #020617; 
+            padding: 4px; 
+            border-radius: 10px; 
+        }
+        
+        .tab-btn { 
+            flex: 1; 
+            padding: 8px; 
+            font-size: 0.75rem; 
+            font-weight: bold; 
+            background: transparent; 
+            color: #64748b; 
+            border: none; 
+            border-radius: 6px; 
+            cursor: pointer; 
+        }
+        
+        .tab-btn.active { 
+            background: var(--primary); 
+            color: #05070f; 
+        }
+        
         .panel { display: none; }
         .panel.active { display: block; }
 
-        .gauge-container { position: relative; width: 180px; height: 90px; margin: 0 auto 10px; overflow: hidden; }
-        .gauge-body { position: absolute; top: 0; left: 0; width: 180px; height: 180px; border-radius: 50%; box-sizing: border-box; border: 18px solid #1e293b; border-bottom-color: var(--primary); border-right-color: var(--primary); transform: rotate(-135deg); transition: transform 0.08s linear; }
-        .gauge-text { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); font-size: 1.9rem; font-weight: 700; }
+        /* Hız Kadranı */
+        .gauge-container { 
+            position: relative; 
+            width: 180px; 
+            height: 90px; 
+            margin: 0 auto 10px; 
+            overflow: hidden; 
+        }
+        
+        .gauge-body { 
+            position: absolute; 
+            top: 0; left: 0; 
+            width: 180px; 
+            height: 180px; 
+            border-radius: 50%; 
+            box-sizing: border-box; 
+            border: 18px solid #1e293b; 
+            border-bottom-color: var(--primary); 
+            border-right-color: var(--primary); 
+            transform: rotate(-135deg); 
+            transition: transform 0.08s linear; 
+        }
+        
+        .gauge-text { 
+            position: absolute; 
+            bottom: 0; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            font-size: 1.9rem; 
+            font-weight: 700; 
+        }
 
-        #wave-canvas { width: 100%; height: 40px; background: #020617; border-radius: 8px; margin-bottom: 15px; border: 1px solid #1e293b; }
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .stat-box { background: #020617; padding: 10px; border-radius: 12px; font-size: 0.75rem; color: #94a3b8; border: 1px solid #1e293b;}
-        .stat-box span { display: block; font-size: 1rem; font-weight: bold; color: var(--text); margin-top: 3px; }
+        /* Dalga Efekti */
+        #wave-canvas { 
+            width: 100%; 
+            height: 40px; 
+            background: #020617; 
+            border-radius: 8px; 
+            margin-bottom: 15px; 
+            border: 1px solid #1e293b; 
+        }
 
-        .input-code { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 10px; border: 1px solid #1e293b; background: #020617; color: var(--success); text-align: center; font-size: 0.85rem; box-sizing: border-box; }
+        .stats-grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 10px; 
+            margin-bottom: 15px; 
+        }
+        
+        .stat-box { 
+            background: #020617; 
+            padding: 10px; 
+            border-radius: 12px; 
+            font-size: 0.75rem; 
+            color: #94a3b8; 
+            border: 1px solid #1e293b;
+        }
+        
+        .stat-box span { 
+            display: block; 
+            font-size: 1rem; 
+            font-weight: bold; 
+            color: var(--text); 
+            margin-top: 3px; 
+        }
 
-        button { display: block; box-sizing: border-box; background-color: var(--primary); color: #05070f; border: none; padding: 13px; font-size: 0.9rem; font-weight: bold; border-radius: 12px; cursor: pointer; width: 100%; margin-bottom: 8px; }
+        .input-code { 
+            width: 100%; 
+            padding: 12px; 
+            margin-bottom: 15px; 
+            border-radius: 10px; 
+            border: 1px solid #1e293b; 
+            background: #020617; 
+            color: var(--success); 
+            text-align: center; 
+            font-size: 0.85rem; 
+            box-sizing: border-box; 
+        }
+
+        button { 
+            display: block; 
+            box-sizing: border-box; 
+            background-color: var(--primary); 
+            color: #05070f; 
+            border: none; 
+            padding: 13px; 
+            font-size: 0.9rem; 
+            font-weight: bold; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            width: 100%; 
+            margin-bottom: 8px; 
+            transition: all 0.2s ease;
+        }
+        
         .btn-green { background-color: var(--success); }
         .btn-blue { background-color: var(--primary); }
         .btn-purple { background-color: var(--purple); color: white; }
 
-        /* %99.99.99 GELİŞMİŞ AYAR ÖGELERİ */
-        .setting-row { background: #020617; padding: 12px; border-radius: 12px; margin-bottom: 8px; border: 1px solid #1e293b; text-align: left; }
-        .setting-label { font-size: 0.8rem; color: #94a3b8; display: flex; justify-content: space-between; margin-bottom: 6px; }
-        .setting-slider { width: 100%; accent-color: var(--primary); cursor: pointer; }
+        /* Gelişmiş Ayarlar Bölümü */
+        .setting-row { 
+            background: #020617; 
+            padding: 12px; 
+            border-radius: 12px; 
+            margin-bottom: 8px; 
+            border: 1px solid #1e293b; 
+            text-align: left; 
+        }
+        
+        .setting-label { 
+            font-size: 0.8rem; 
+            color: #94a3b8; 
+            display: flex; 
+            justify-content: space-between; 
+            margin-bottom: 6px; 
+        }
+        
+        .setting-slider { 
+            width: 100%; 
+            accent-color: var(--primary); 
+            cursor: pointer; 
+        }
 
-        /* İNTERAKTİF EĞİTİM REHBERİ (GUIDE OVERLAY) */
-        .guide-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(2, 3, 6, 0.96); z-index: 20000; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; text-align: center; }
-        .guide-card { background: var(--card-bg); border: 2px solid var(--purple); padding: 25px; border-radius: 20px; max-width: 360px; box-shadow: 0 0 30px rgba(168, 85, 247, 0.3); }
+        /* İnteraktif Kılavuz (İlk Açılışta Çıkar) */
+        .guide-overlay { 
+            position: fixed; 
+            top: 0; left: 0; 
+            width: 100%; height: 100%; 
+            background: rgba(2, 3, 6, 0.96); 
+            z-index: 20000; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            padding: 20px; 
+            box-sizing: border-box; 
+            text-align: center; 
+        }
+        
+        .guide-card { 
+            background: var(--card-bg); 
+            border: 2px solid var(--purple); 
+            padding: 25px; 
+            border-radius: 20px; 
+            max-width: 360px; 
+            box-shadow: 0 0 30px rgba(168, 85, 247, 0.3); 
+        }
 
-        /* SİNEMATİK VİDEO OVERLAY */
-        .video-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(2, 3, 6, 0.99); z-index: 10000; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; }
-        .video-box { width: 100%; max-width: 500px; border-radius: 16px; overflow: hidden; border: 2px solid var(--primary); background: #000; aspect-ratio: 16/9; }
-        .loader-spinner { display: none; border: 4px solid #1e293b; border-top: 4px solid var(--success); border-radius: 50%; width: 45px; height: 45px; animation: spin 1s linear infinite; margin-bottom: 15px; }
+        /* Sinematik Yükleme overlay */
+        .video-overlay { 
+            position: fixed; 
+            top: 0; left: 0; 
+            width: 100%; height: 100%; 
+            background: rgba(2, 3, 6, 0.99); 
+            z-index: 10000; 
+            display: none; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            padding: 20px; 
+            box-sizing: border-box; 
+        }
+        
+        .video-box { 
+            width: 100%; 
+            max-width: 500px; 
+            border-radius: 16px; 
+            overflow: hidden; 
+            border: 2px solid var(--primary); 
+            background: #000; 
+            aspect-ratio: 16/9; 
+        }
+        
+        .loader-spinner { 
+            display: none; 
+            border: 4px solid #1e293b; 
+            border-top: 4px solid var(--success); 
+            border-radius: 50%; 
+            width: 45px; 
+            height: 45px; 
+            animation: spin 1s linear infinite; 
+            margin-bottom: 15px; 
+        }
+        
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        .version { position: fixed; left: 15px; bottom: 15px; font-size: 0.75rem; color: #475569; font-weight: bold; z-index: 9999; background: rgba(9, 13, 22, 0.9); padding: 4px 8px; border-radius: 5px; border: 1px solid #1e293b; }
+        /* Sürüm Numarası */
+        .version { 
+            position: fixed; 
+            left: 15px; 
+            bottom: 15px; 
+            font-size: 0.75rem; 
+            color: #475569; 
+            font-weight: bold; 
+            z-index: 9999; 
+            background: rgba(9, 13, 22, 0.9); 
+            padding: 4px 8px; 
+            border-radius: 5px; 
+            border: 1px solid #1e293b; 
+        }
     </style>
 </head>
 <body>
 
+<!-- İLK AÇILIŞ REHBERİ -->
 <div id="welcome-guide" class="guide-overlay">
     <div class="guide-card">
-        <h2 style="color: var(--purple); text-align:center; margin-top:0;">🎓 Çipil OS Kullanım Kılavuzu</h2>
-        <p id="guide-text" style="font-size: 0.85rem; line-height: 1.4; color: #cbd5e1; min-height: 70px;">Sistem Merkezine Hoş Geldin! Bu akıllı araç, internet hızını test etmek ve arka plan hafıza artıklarını temizlemek için tasarlanmıştır.</p>
+        <h2 style="color: var(--purple); text-align:center; margin-top:0;">🎓 Çipil OS Kullanım Rehberi</h2>
+        <p id="guide-text" style="font-size: 0.85rem; line-height: 1.4; color: #cbd5e1; min-height: 70px;">Sistem Merkezine Hoş Geldin! Bu akıllı araç, internet hızını en yüksek hassasiyetle doğrulamak ve sistem belleğini temizlemek için tasarlandı.</p>
         <button class="btn-purple" id="guide-next-btn" onclick="nextGuideStep()">İleri ve Keşfet (1/3)</button>
     </div>
 </div>
@@ -103,6 +310,7 @@
         <button class="tab-btn" id="t1" onclick="switchPanel(1)">⚙️ %99 Hiper Ayarlar</button>
     </div>
 
+    <!-- PANEL 1: ANA KONTROL MOTORU -->
     <div id="panel-0" class="panel active">
         <div class="gauge-container">
             <div class="gauge-body" id="gauge"></div>
@@ -121,9 +329,12 @@
         
         <button id="test-btn" onclick="runPreciseEngine()">🚀 İnternet Hızını Doğrula</button>
         <button class="btn-green" onclick="quickClean()">🧹 Hızlı Bellek Temizleyici</button>
-        <button class="btn-blue" onclick="openLoaderScreen()">📲 Uygulamayı Güvenli APK Olarak Yükle</button>
+        
+        <!-- YENİ GÜVENLİ PAKET YÜKLEME BUTONU -->
+        <button class="btn-blue" onclick="openLoaderScreen()">📲 Projeyi Paket Yükleyiciye Hazırla (.html)</button>
     </div>
 
+    <!-- PANEL 2: %99.99.99 GELİŞMİŞ AYARLAR -->
     <div id="panel-1" class="panel">
         <h2>🎛️ Donanım Frekans ve Ses Modülleri</h2>
         
@@ -151,11 +362,20 @@
             <input type="range" class="setting-slider" min="50" max="250" value="120" oninput="updateSettingDisplay('volt-val', (this.value/100).toFixed(2), ' V')">
         </div>
 
+        <div class="setting-row">
+            <div class="setting-label">
+                <span>💻 Sanal CPU Çekirdek Frekansı</span>
+                <span id="cpu-val" style="color:var(--purple)">2.40 GHz</span>
+            </div>
+            <input type="range" class="setting-slider" min="100" max="4200" value="2400" oninput="updateSettingDisplay('cpu-val', (this.value/1000).toFixed(2), ' GHz')">
+        </div>
+
         <button class="btn-purple" style="margin-top:10px;" onclick="openGuideDirectly()">🎓 Kullanım Eğitimini Yeniden Başlat</button>
     </div>
 
 </div>
 
+<!-- VİDEOLU SİNEMATİK OVERLAY -->
 <div id="download-overlay" class="video-overlay">
     <div id="video-header-text" style="font-size:1rem; color:#fff; margin-bottom:15px; font-weight:bold; text-align:center;">⚡ Elektronik Donanım Teknolojisi Dağıtımı Sürüyor...</div>
     
@@ -168,11 +388,12 @@
 
     <div style="margin-top:20px; width:100%; max-width:400px;">
         <button id="skip-btn" style="background-color: var(--error); color: white;" onclick="skipVideoAndTest()">⏩ Videoyu Geç ve İndirmeyi Başlat</button>
-        <button id="entry-btn" class="btn-green" style="display: none;" onclick="finishInstallation()">🚪 Uygulamaya Giriş Yap</button>
+        <button id="entry-btn" class="btn-green" style="display: none;" onclick="downloadHtmlProject()">📥 Kaynak Kodunu İndir (.html)</button>
     </div>
 </div>
 
-<span class="version">v1.3</span>
+<!-- Dinamik Sürüm 1.4 -->
+<span class="version">1.4</span>
 
 <script>
 let videoDurationTimeout;
@@ -182,6 +403,14 @@ let guideStep = 1;
 const canvas = document.getElementById('wave-canvas');
 const ctx = canvas.getContext('2d');
 
+// Ekran boyutuna göre canvas boyutlandırma
+function resizeCanvas() {
+    canvas.width = canvas.parentElement.clientWidth - 40;
+    canvas.height = 40;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
 function switchPanel(index) {
     document.getElementById('t0').classList.toggle('active', index === 0);
     document.getElementById('t1').classList.toggle('active', index === 1);
@@ -189,7 +418,7 @@ function switchPanel(index) {
     document.getElementById('panel-1').classList.toggle('active', index === 1);
 }
 
-// EĞİTİM REHBERİ ADIM MOTORU
+// EĞİTİM REHBERİ
 function nextGuideStep() {
     guideStep++;
     const txt = document.getElementById('guide-text');
@@ -214,25 +443,27 @@ function openGuideDirectly() {
     nextGuideStep();
 }
 
-// GELİŞMİŞ AYAR DEĞERLERİNİ GÜNCELLEME
 function updateSettingDisplay(id, val, suffix) {
     document.getElementById(id).innerText = (val > 0 && id === 'sound-val' ? '+' : '') + val + suffix;
 }
 
-// FREKANS DALGASI ÇIZİMİ
+// CANLI ELEKTRİK FREKANSI DALGASI
 function drawWave(amplitude = 5) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.beginPath(); ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 2;
+    ctx.beginPath(); 
+    ctx.strokeStyle = '#38bdf8'; 
+    ctx.lineWidth = 2;
     for (let x = 0; x < canvas.width; x++) {
         let y = canvas.height / 2 + Math.sin(x * 0.05 + waveIdx) * amplitude;
         if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
     }
-    ctx.stroke(); waveIdx += 0.15;
+    ctx.stroke(); 
+    waveIdx += 0.15;
     waveAnimation = requestAnimationFrame(() => drawWave(amplitude));
 }
 drawWave(3);
 
-// HIZ MOTORU
+// HIZ KADRANI MOTORU
 function runPreciseEngine() {
     const btn = document.getElementById('test-btn');
     const gauge = document.getElementById('gauge');
@@ -242,7 +473,8 @@ function runPreciseEngine() {
     const code = document.getElementById('antenna-code').value.trim();
 
     btn.disabled = true;
-    cancelAnimationFrame(waveAnimation); drawWave(16);
+    cancelAnimationFrame(waveAnimation); 
+    drawWave(16);
 
     let speedModifier = 0;
     if (code === "SAMSUNG-HIZ-ARTIR") speedModifier = 120;
@@ -263,18 +495,22 @@ function runPreciseEngine() {
 
         counter++;
         if (counter > 12) {
-            clearInterval(interval); btn.disabled = false;
-            cancelAnimationFrame(waveAnimation); drawWave(3);
+            clearInterval(interval); 
+            btn.disabled = false;
+            cancelAnimationFrame(waveAnimation); 
+            drawWave(3);
         }
     }, 100);
 }
 
 function quickClean() {
-    if (window.caches) { caches.keys().then(names => { for (let name of names) caches.delete(name); }); }
+    if (window.caches) { 
+        caches.keys().then(names => { for (let name of names) caches.delete(name); }); 
+    }
     alert("🧹 Hızlı Bellek Temizlendi!");
 }
 
-// SİNEMATİK VİDEOLU ARAYÜZ KOMUTLARI
+// SİNEMATİK VİDEO VE SÜREÇ YÖNETİMİ
 function openLoaderScreen() {
     document.getElementById('download-overlay').style.display = 'flex';
     document.getElementById('video-container').style.display = 'block';
@@ -293,25 +529,45 @@ function handleVideoEnded() {
 
 function skipVideoAndTest() {
     clearTimeout(videoDurationTimeout);
-    const iframe = document.getElementById('edu-video'); iframe.src = iframe.src;
+    const iframe = document.getElementById('edu-video'); 
+    iframe.src = iframe.src;
     document.getElementById('video-container').style.display = 'none';
     document.getElementById('skip-btn').style.display = 'none';
 
     document.getElementById('loading-spinner').style.display = 'block';
-    const statusText = document.getElementById('status-text'); statusText.style.display = 'block';
+    const statusText = document.getElementById('status-text'); 
+    statusText.style.display = 'block';
 
-    statusText.innerText = "🔍 Sinyal frekansları dengeleniyor..."; runPreciseEngine();
-    setTimeout(() => { statusText.innerText = "🟢 İşlem Başarıyla Tamamlandı!"; }, 2500);
+    statusText.innerText = "🔍 Sinyal akışları senkronize ediliyor..."; 
+    runPreciseEngine();
+    
+    setTimeout(() => { statusText.innerText = "⚡ Paket dönüştürücü için kod paketi optimize ediliyor..."; }, 2000);
     setTimeout(() => {
         document.getElementById('loading-spinner').style.display = 'none';
+        statusText.innerText = "🟢 Kaynak kodu hazırlandı! Aşağıdaki butondan doğrudan indirebilirsiniz.";
         document.getElementById('entry-btn').style.display = 'block';
-    }, 3500);
+    }, 4000);
 }
 
-function finishInstallation() {
+// GERÇEKÇİ VE HATASIZ HTML İNDİRME MEKANİZMASI
+function downloadHtmlProject() {
+    const htmlContent = document.documentElement.outerHTML;
+    const blob = new Blob([htmlContent], { type: "text/html" });
+    const url = URL.createObjectURL(blob);
+    
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "index.html"; // APK dönüştürücülerin direkt tanıdığı ana dosya ismi
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
     document.getElementById('download-overlay').style.display = 'none';
-    alert("🚀 Çipil OS v1.3 Aktif!");
+    alert("🚀 index.html başarıyla indirildi!\n\nŞimdi bu dosyayı telefonundaki herhangi bir 'HTML to APK' uygulamasıyla doğrudan Paket Yükleyici formatına çevirebilirsin!");
 }
 </script>
 </body>
 </html>
+
+```
