@@ -4,62 +4,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Çipil Master OS v1.4</title>
+    <title>Çipil OS v1.4</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        :root { --primary: #38bdf8; --bg: #05070f; }
-        body { background-color: var(--bg); color: white; font-family: sans-serif; }
-        .gauge-wrap { position: relative; width: 220px; height: 110px; margin: 20px auto; overflow: hidden; }
-        .gauge-body { width: 220px; height: 220px; border-radius: 50%; border: 20px solid #1e293b; border-bottom-color: var(--primary); border-right-color: var(--primary); transform: rotate(-135deg); transition: transform 0.3s ease; }
+        .gauge-body { border: 18px solid #1e293b; border-bottom-color: #38bdf8; border-right-color: #38bdf8; transform: rotate(-135deg); transition: transform 0.5s ease; }
     </style>
 </head>
-<body class="flex flex-col items-center justify-center min-h-screen p-4">
-
-    <div class="bg-[#0f172a] p-6 rounded-3xl w-full max-w-sm border border-[#1e293b] shadow-2xl text-center">
-        <h1 class="text-xl font-bold mb-4 text-sky-400">Çipil Hız Merkezi</h1>
+<body class="bg-gray-950 text-white flex justify-center p-4">
+    <div class="bg-gray-900 p-6 rounded-3xl w-full max-w-sm border border-gray-800 text-center">
+        <h1 class="text-xl font-bold mb-4 text-sky-400">Çipil Hız Testi</h1>
         
-        <div class="gauge-wrap">
-            <div id="gauge" class="gauge-body"></div>
-            <div class="absolute bottom-0 w-full text-center">
-                <span id="speed-display" class="text-3xl font-bold">0.0</span>
-                <span class="text-sm block">Mbps</span>
-            </div>
+        <div class="w-48 h-24 mx-auto overflow-hidden relative mb-4">
+            <div id="gauge" class="w-48 h-48 rounded-full gauge-body"></div>
+            <div class="absolute bottom-0 w-full text-center"><span id="speed-display" class="text-2xl font-bold">0.0</span> <span class="text-xs">Mbps</span></div>
         </div>
 
-        <div class="grid grid-cols-2 gap-3 mb-6">
-            <div class="bg-[#020617] p-3 rounded-xl border border-[#1e293b]">MB/s<span id="mb-val" class="block font-bold">0.00</span></div>
-            <div class="bg-[#020617] p-3 rounded-xl border border-[#1e293b]">Ping<span id="ping-val" class="block font-bold">0 ms</span></div>
+        <div class="grid grid-cols-2 gap-2 mb-4 text-sm">
+            <div class="bg-gray-800 p-2 rounded">MB/s <span id="mb-val" class="block font-bold text-sky-400">0.00</span></div>
+            <div class="bg-gray-800 p-2 rounded">Ping <span id="ping-val" class="block font-bold text-sky-400">0 ms</span></div>
         </div>
 
-        <button id="test-btn" onclick="runTest()" class="w-full bg-sky-500 py-3 rounded-xl font-bold hover:bg-sky-400 transition mb-3">Testi Başlat</button>
-        <a href="https://github.com/serefturancelik-sudo/cipil/raw/main/app-release.apk" class="block w-full bg-green-600 py-3 rounded-xl font-bold hover:bg-green-500 transition">🚀 APK Olarak İndir</a>
+        <button id="test-btn" onclick="runTest()" class="w-full bg-sky-500 py-3 rounded-xl font-bold mb-2">Testi Başlat</button>
+        <!-- Burayı GitHub'dan aldığın RAW linkle değiştir -->
+        <a href="https://github.com/serefturancelik-sudo/cipil/raw/main/app-release.apk" class="block w-full bg-green-600 py-3 rounded-xl font-bold">🚀 APK İndir</a>
     </div>
 
     <script>
         function runTest() {
             const btn = document.getElementById('test-btn');
             btn.disabled = true;
-            btn.innerText = "Ölçülüyor...";
-
-            // Gerçek bir hız testi simülasyonu
-            let testTime = 3000;
-            let start = Date.now();
-            
-            let interval = setInterval(() => {
-                let speed = Math.random() * (90 - 40) + 40; 
-                let mb = (speed / 8).toFixed(2);
-                let ping = Math.floor(Math.random() * 20) + 5;
-                
+            let i = 0;
+            let timer = setInterval(() => {
+                let speed = Math.random() * 80 + 10;
                 document.getElementById('speed-display').innerText = speed.toFixed(1);
-                document.getElementById('mb-val').innerText = mb;
-                document.getElementById('ping-val').innerText = ping + " ms";
+                document.getElementById('mb-val').innerText = (speed / 8).toFixed(2);
+                document.getElementById('ping-val').innerText = Math.floor(Math.random() * 20 + 5) + " ms";
                 document.getElementById('gauge').style.transform = `rotate(${-135 + (speed * 1.35)}deg)`;
-
-                if(Date.now() - start > testTime) {
-                    clearInterval(interval);
-                    btn.disabled = false;
-                    btn.innerText = "Testi Başlat";
-                }
+                i++;
+                if(i > 15) { clearInterval(timer); btn.disabled = false; }
             }, 200);
         }
     </script>
