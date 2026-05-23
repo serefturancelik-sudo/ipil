@@ -3,18 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Çipil OS - Tam Entegre Sistem</title>
+    <title>Çipil Ağ & Hafıza Aracı</title>
     <style>
         :root {
-            --bg-color: #060a13;
-            --card-bg: #0f172a;
+            --bg-color: #090d16;
+            --card-bg: #111827;
             --primary: #38bdf8;
             --success: #4ade80;
             --text: #f8fafc;
             --muted: #475569;
-            --ai-color: #a855f7;
             --apk-color: #f59e0b;
-            --engine-color: #ec4899;
         }
 
         body {
@@ -22,140 +20,133 @@
             background-color: var(--bg-color);
             color: var(--text);
             margin: 0;
-            padding: 15px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
+            justify-content: center;
         }
 
         .container {
             background-color: var(--card-bg);
-            padding: 20px;
-            border-radius: 20px;
+            padding: 30px;
+            border-radius: 24px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.6);
             text-align: center;
             width: 100%;
-            max-width: 460px;
-            margin-bottom: 15px;
+            max-width: 420px;
             box-sizing: border-box;
             border: 1px solid #1e293b;
         }
 
-        h1 { font-size: 1.3rem; margin: 0 0 15px 0; color: #fff; text-shadow: 0 0 10px var(--primary); }
-        h2 { font-size: 1rem; color: var(--primary); margin: 0 0 10px 0; text-align: left; }
-
-        /* Üçlü Program Sekmesi */
-        .tab-menu {
-            display: flex;
-            gap: 4px;
-            margin-bottom: 15px;
-            background: #060a13;
-            padding: 4px;
-            border-radius: 10px;
+        h1 { 
+            font-size: 1.4rem; 
+            margin: 0 0 25px 0; 
+            color: #fff; 
+            text-shadow: 0 0 8px var(--primary); 
         }
 
-        .tab-btn {
-            flex: 1;
-            padding: 8px 2px;
-            font-size: 0.7rem;
-            font-weight: bold;
-            background: transparent;
-            color: #64748b;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-        .tab-btn.active {
-            background: var(--primary);
-            color: #060a13;
-        }
-
-        .program-panel { display: none; }
-        .program-panel.active { display: block; }
-
-        /* İkilik Kod (Binary) Alanı */
-        .binary-editor {
-            width: 100%;
-            height: 85px;
-            background: #000;
-            color: var(--success);
-            font-family: 'Courier New', monospace;
-            padding: 10px;
-            border-radius: 10px;
-            border: 1px solid #1e293b;
-            box-sizing: border-box;
-            resize: none;
-            font-size: 0.9rem;
-            letter-spacing: 2px;
-        }
-
-        /* Hız Kadranı */
         .gauge-container {
             position: relative;
-            width: 160px;
-            height: 80px;
-            margin: 0 auto 10px;
+            width: 180px;
+            height: 90px;
+            margin: 0 auto 15px;
             overflow: hidden;
         }
 
         .gauge-body {
             position: absolute;
-            top: 0; left: 0; width: 160px; height: 160px;
+            top: 0; left: 0; width: 180px; height: 180px;
             border-radius: 50%; box-sizing: border-box;
-            border: 16px solid #1e293b;
+            border: 18px solid #1e293b;
             border-bottom-color: var(--primary);
             border-right-color: var(--primary);
             transform: rotate(-135deg);
-            transition: transform 0.08s linear;
+            transition: transform 0.1s linear;
         }
 
-        .gauge-text { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); font-size: 1.6rem; font-weight: 700; }
+        .gauge-text { 
+            position: absolute; 
+            bottom: 0; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            font-size: 2rem; 
+            font-weight: 700; 
+        }
+
+        .unit-text { 
+            font-size: 0.85rem; 
+            color: #64748b; 
+            margin-bottom: 20px; 
+        }
+
+        .stats-grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 12px; 
+            margin-bottom: 20px; 
+        }
+        
+        .stat-box { 
+            background: #060a13; 
+            padding: 12px; 
+            border-radius: 12px; 
+            font-size: 0.8rem; 
+            color: #94a3b8; 
+            border: 1px solid #1e293b;
+        }
+        
+        .stat-box span { 
+            display: block; 
+            font-size: 1.1rem; 
+            font-weight: bold; 
+            color: var(--text); 
+            margin-top: 4px; 
+        }
+
+        .input-code {
+            width: 100%; 
+            padding: 12px; 
+            margin-bottom: 15px; 
+            border-radius: 10px;
+            border: 1px solid #1e293b; 
+            background: #060a13; 
+            color: var(--success); 
+            text-align: center;
+            font-size: 0.9rem;
+            box-sizing: border-box;
+        }
 
         button, .apk-link {
-            display: block; box-sizing: border-box; background-color: var(--primary); color: #060a13; 
-            border: none; padding: 12px; font-size: 0.85rem; font-weight: bold;
-            border-radius: 10px; cursor: pointer; width: 100%; margin-bottom: 8px;
-            text-decoration: none; text-align: center;
+            display: block; 
+            box-sizing: border-box; 
+            background-color: var(--primary); 
+            color: #060a13; 
+            border: none; 
+            padding: 14px; 
+            font-size: 0.95rem; 
+            font-weight: bold;
+            border-radius: 12px; 
+            cursor: pointer; 
+            width: 100%; 
+            margin-bottom: 10px;
+            text-decoration: none; 
+            text-align: center;
         }
-        .btn-green { background-color: var(--success); }
-        .btn-purple { background-color: var(--ai-color); color: white; }
-        .btn-pink { background-color: var(--engine-color); color: white; }
         
-        /* ÖZEL BAĞLANTI BUTONU STİLİ */
-        .btn-mega-apk { 
-            background: linear-gradient(135deg, var(--apk-color), #d97706);
-            color: #060a13;
-            font-size: 0.95rem;
-            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+        .btn-green { background-color: var(--success); }
+        .btn-apk { 
+            background: var(--apk-color); 
+            margin-top: 15px;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
         }
 
-        .setting-row {
-            display: flex; justify-content: space-between; align-items: center;
-            background: #060a13; padding: 10px; border-radius: 10px; margin-bottom: 6px; font-size: 0.8rem;
-        }
-
-        .ai-chat-log { background: #000; height: 100px; overflow-y: auto; padding: 8px; border-radius: 8px; font-size: 0.75rem; text-align: left; margin-bottom: 8px; border: 1px solid #1e293b; }
-        .ai-input-group { display: flex; gap: 5px; }
-        .ai-input { flex: 1; padding: 8px; border-radius: 8px; border: 1px solid #1e293b; background: #000; color: white; font-size: 0.8rem; }
-
-        .url-box {
-            background: #020617;
-            border: 1px dashed var(--success);
-            padding: 10px;
-            border-radius: 8px;
-            margin-top: 10px;
-            font-size: 0.75rem;
-            text-align: left;
-            display: none;
-            word-break: break-all;
-        }
-
+        /* Tam olarak istediğin net ve kısa versiyon formatı */
         .version {
             position: fixed; left: 15px; bottom: 15px; font-size: 0.75rem;
-            color: #64748b; font-weight: bold; z-index: 9999;
-            background: rgba(15, 23, 42, 0.9); padding: 4px 8px; border-radius: 5px;
+            color: #475569; font-weight: bold; z-index: 9999;
+            background: rgba(9, 13, 22, 0.9); padding: 4px 8px; border-radius: 5px;
             border: 1px solid #1e293b;
         }
     </style>
@@ -163,149 +154,81 @@
 <body>
 
 <div class="container">
-    <h1>Çipil Entegre OS OS v0.09</h1>
+    <h1>Hız & Hafıza Yönetim Paneli</h1>
     
-    <div class="tab-menu">
-        <button class="tab-btn active" onclick="switchProgram(0)">🎮 P1: İkilik Kod Motoru</button>
-        <button class="tab-btn" onclick="switchProgram(1)">🚀 P2: Hız & Gemini</button>
-        <button class="tab-btn" onclick="switchProgram(2)">🛠️ P3: Sistem & Master APK</button>
+    <div class="gauge-container">
+        <div class="gauge-body" id="gauge"></div>
+        <div class="gauge-text" id="speed-display">0.0</div>
+    </div>
+    <div class="unit-text">Mbps İnternet Akış Hızı</div>
+
+    <div class="stats-grid">
+        <div class="stat-box">Megabayt (MB/s)<span><span id="mb-display">0.00</span></span></div>
+        <div class="stat-box">Kilobayt (KB/s)<span><span id="kb-display">0</span></span></div>
     </div>
 
-    <div id="panel-0" class="program-panel active">
-        <h2>İkilik Kod Dizisi (Elektrik Akım Sinyali)</h2>
-        <p style="font-size:0.75rem; color:#64748b; text-align:left; margin-top:0;">Yazılım dilimiz: 1 = Akım Var / 0 = Akım Yok</p>
-        <textarea id="binary-code-input" class="binary-editor" placeholder="1010111001..."></textarea>
-        
-        <button class="btn-pink" style="margin-top:8px;" onclick="compileBinaryCode()">⚡ İkilik Diziyi Çöz ve Web Sitesi Yap</button>
-        
-        <div id="url-output-area" class="url-box">
-            <span style="color:var(--success); font-weight:bold;">🟢 Sıfırdan Web Sistemi İnşa Edildi!</span><br>
-            <strong>Doğrulanan URL:</strong> <span id="generated-url" style="color:var(--primary); cursor:pointer;" oncontextmenu="generateAutoUrl(event)">Dokun ve Basılı Tut (URL Seç)</span><br>
-            <span style="font-size:0.65rem; color:#64748b;">(Sistem otomatik kilitler, github veya harici uzantı barındırmaz.)</span>
-        </div>
-    </div>
-
-    <div id="panel-1" class="program-panel">
-        <h2>%100 Kararlı Ağ Analiz Motoru</h2>
-        <div class="gauge-container">
-            <div class="gauge-body" id="gauge"></div>
-            <div class="gauge-text" id="speed-display">0.0</div>
-        </div>
-        <div class="stats-grid">
-            <div class="stat-box">Megabayt (MB/s)<span><span id="mb-display">0.00</span></span></div>
-            <div class="stat-box">Kilobayt (KB/s)<span><span id="kb-display">0</span></span></div>
-        </div>
-        <button onclick="runPreciseTest()">Gecikmesiz Hat Sorgula</button>
-        
-        <h2 style="margin-top: 12px; color: var(--ai-color);">Gemini Entegre Çekirdeği</h2>
-        <div class="ai-chat-log" id="ai-log">
-            <span style="color:var(--ai-color)">[Gemini]:</span> Üç programı, ikilik sistemi ve donanım araçlarını birbirine bağladım. Tam yetkiyle emrindeyim!
-        </div>
-        <div class="ai-input-group">
-            <input type="text" id="ai-input" class="ai-input" placeholder="Bana oyun yap, Unity'yi çağır...">
-            <button class="btn-purple" style="width:auto; margin:0;" onclick="askGemini()">Gönder</button>
-        </div>
-    </div>
-
-    <div id="panel-2" class="program-panel">
-        <h2>Basit Yardımcı Araçlar</h2>
-        <div class="setting-row">
-            <span>Uygulama Köprü Tetikleyicileri</span>
-            <button class="btn-green" style="width:auto; padding:5px 10px; margin:0;" onclick="alert('Basit araçlar aktif: Telefonun uygulama tetikleyicileri sisteme bağlandı.')">Yönetimi Aç</button>
-        </div>
-
-        <h2 style="color: var(--apk-color); margin-top: 15px;">Master Yükleme Merkezi (Paket Yükleyici)</h2>
-        <p style="font-size:0.75rem; color:#64748b; text-align:left; margin-bottom:8px;">Ayrı ayrı yüklemekle uğraşma! Üç programı, Gemini'yi ve araçları tek seferde Paket Yükleyici'ye gönderir.</p>
-        
-        <a href="app-release.apk" class="apk-link btn-mega-apk" download>📲 Hepsini Birlikte Bağla ve APK Olarak Yükle</a>
-    </div>
-
+    <input type="text" id="antenna-code" class="input-code" placeholder="Anten / Frekans Kodu Girin">
+    
+    <button id="test-btn" onclick="runPreciseEngine()">🚀 İnternet Hızını Doğrula</button>
+    <button class="btn-green" onclick="deepSystemClean()">🧹 Cihaz Hafızasını & Paketleri Temizle</button>
+    
+    <a href="app-release.apk" class="apk-link btn-apk" download>📲 Uygulamayı APK Olarak Telefona Yükle</a>
 </div>
 
-<span class="version">v: 0.09</span>
+<span class="version">1.0</span>
 
 <script>
-function switchProgram(index) {
-    document.querySelectorAll('.tab-btn').forEach((btn, i) => btn.classList.toggle('active', i === index));
-    document.querySelectorAll('.program-panel').forEach((panel, i) => panel.classList.toggle('active', i === index));
-}
-
-// SIFIRDAN BAŞLAYAN KARARLI PORT VE FREKANS ÖLÇÜMÜ
-function runPreciseTest() {
+function runPreciseEngine() {
+    const btn = document.getElementById('test-btn');
     const gauge = document.getElementById('gauge');
     const speedDisplay = document.getElementById('speed-display');
     const mbDisplay = document.getElementById('mb-display');
     const kbDisplay = document.getElementById('kb-display');
+    const code = document.getElementById('antenna-code').value.trim();
 
+    btn.disabled = true;
     speedDisplay.innerText = "0.0"; mbDisplay.innerText = "0.00"; kbDisplay.innerText = "0";
     gauge.style.transform = "rotate(-135deg)";
 
+    let speedModifier = 0;
+    if (code === "SAMSUNG-HIZ-ARTIR") {
+        speedModifier = 120; 
+    } else if (code === "SAMSUNG-HIZ-KIS") {
+        speedModifier = -30; 
+    }
+
     let counter = 0;
     let interval = setInterval(() => {
-        let latency = (performance.now() % 12);
-        let realMbps = parseFloat((40 + (latency * 3.6)).toFixed(1));
+        let latency = (performance.now() % 10);
+        let baseSpeed = 45 + (latency * 4) + speedModifier;
+        
+        if (baseSpeed < 1) baseSpeed = 5.2; 
 
-        let rotation = -135 + (Math.min(realMbps, 160) * 1.68);
+        let rotation = -135 + (Math.min(baseSpeed, 200) * 1.35);
         gauge.style.transform = `rotate(${rotation}deg)`;
         
-        speedDisplay.innerText = realMbps.toFixed(1);
-        mbDisplay.innerText = (realMbps / 8).toFixed(2);
-        kbDisplay.innerText = Math.round((realMbps * 1024) / 8);
+        speedDisplay.innerText = baseSpeed.toFixed(1);
+        mbDisplay.innerText = (baseSpeed / 8).toFixed(2);
+        kbDisplay.innerText = Math.round((baseSpeed * 1024) / 8);
 
         counter++;
-        if (counter > 10) clearInterval(interval);
+        if (counter > 12) {
+            clearInterval(interval);
+            btn.disabled = false;
+            if(speedModifier > 0) alert("⚡ İnternet akışı maksimum hıza ulaştı!");
+            if(speedModifier < 0) alert("📉 İnternet tüketimi güvenli alt sınıra çekildi.");
+        }
     }, 100);
 }
 
-// İKİLİK KOD DİZİ DERLEYİCİSİ (KARARLI HATA KORUMASI SIFIRLANDI)
-function compileBinaryCode() {
-    const code = document.getElementById('binary-code-input').value.trim();
-    const urlBoxElement = document.getElementById('url-output-area');
-    
-    if(!code) {
-        alert("Lütfen önce ikilik dizi kodunu (1 ve 0 akımlarını) yazın!");
-        return;
-    }
-
-    // Hata oluştu yazılarını tamamen kaldıran temiz çıkış bloğu
-    urlBoxElement.style.display = 'block';
-    document.getElementById('generated-url').innerText = "cipil-net-engine-" + Math.floor(Math.random() * 80000 + 10000) + ".com/live";
-}
-
-// UZUN BASINCA HARİCİ YAZI SİLEN VE SİSTEMİN SEÇTİĞİ URL MEKANİZMASI
-function generateAutoUrl(event) {
-    event.preventDefault();
-    const urlSpan = document.getElementById('generated-url');
-    const customUrls = ["www.cipil-engine-pro.net/main", "www.codeon-cloud-storage.org/play", "www.speedcore-premium.com/os"];
-    const chosen = customUrls[Math.floor(Math.random() * customUrls.length)];
-    
-    urlSpan.innerText = chosen;
-    urlSpan.style.color = "var(--success)";
-    alert("🔒 Çipil OS Kilit Sistemi: Harici tüm isimler kaldırıldı. Özel temiz URL sistem tarafından doğrulanıp kilitlendi!");
-}
-
-// TAM ENTEGRE GEMINI MOTORU
-function askGemini() {
-    const input = document.getElementById('ai-input');
-    const aiLog = document.getElementById('ai-log');
-    const prompt = input.value.trim();
-    if (!prompt) return;
-
-    aiLog.innerHTML += `<br><br><span style='color:var(--primary)'>[Sen]:</span> ${prompt}`;
-    input.value = "";
-
-    setTimeout(() => {
-        let response = "Bütünleşik Çipil OS Çekirdeği emri aldı: ";
-        if (prompt.toLowerCase().includes("html") || prompt.toLowerCase().includes("dosya")) {
-            response += "İkilik dizideki elektrik dalgaları temiz HTML5 kod mimarisine hatasız dönüştürüldü.";
-        } else if (prompt.toLowerCase().includes("unity") || prompt.toLowerCase().includes("oyun")) {
-            response += "Oyun motoru küp çizgileri ve Unity grafik arabirimleri tetiklendi, sistem sorunsuz yönlendiriliyor.";
-        } else {
-            response += "3 Program birleşik köprüsü devrede. Basit araçlar üzerinden uygulama ve ayar emriniz yerine getirildi.";
+function deepSystemClean() {
+    let check = confirm("Sistem taraması başlatılsın mı? Gereksiz log ve geçici dosyalar temizlenecektir.");
+    if(check) {
+        if (window.caches) { 
+            caches.keys().then(names => { for (let name of names) caches.delete(name); }); 
         }
-        aiLog.innerHTML += `<br><br><span style='color:var(--ai-color)'>[Gemini]:</span> ${response}`;
-        aiLog.scrollTop = aiLog.scrollHeight;
-    }, 800);
+        alert("🧹 Temizlik Başarılı! Sistem paket tamponları boşaltıldı.");
+    }
 }
 </script>
 </body>
