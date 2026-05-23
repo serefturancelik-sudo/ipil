@@ -4,56 +4,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Çipil Master OS v1.5</title>
-    <!-- PWA Meta Etiketleri -->
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#05070f">
+    <title>Çipil Master OS v1.4</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        :root { --bg-color: #05070f; --card-bg: #0f172a; --primary: #38bdf8; --text: #f8fafc; }
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); color: var(--text); margin: 0; padding: 20px; display: flex; justify-content: center; }
-        .container { background-color: var(--card-bg); padding: 25px; border-radius: 20px; width: 100%; max-width: 400px; text-align: center; border: 1px solid #1e293b; }
-        h1 { font-size: 1.4rem; color: var(--primary); margin-bottom: 20px; }
-        button { width: 100%; padding: 15px; background: var(--primary); border: none; border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 10px; }
-        .info { margin-top: 20px; font-size: 0.9rem; color: #94a3b8; }
+        :root { --primary: #38bdf8; --bg: #05070f; }
+        body { background-color: var(--bg); color: white; font-family: sans-serif; }
+        .gauge-wrap { position: relative; width: 220px; height: 110px; margin: 20px auto; overflow: hidden; }
+        .gauge-body { width: 220px; height: 220px; border-radius: 50%; border: 20px solid #1e293b; border-bottom-color: var(--primary); border-right-color: var(--primary); transform: rotate(-135deg); transition: transform 0.3s ease; }
     </style>
 </head>
-<body>
+<body class="flex flex-col items-center justify-center min-h-screen p-4">
 
-<div class="container">
-    <h1>Çipil Master OS v1.5</h1>
-    <div id="status">Sistem Hazır</div>
-    
-    <button onclick="installApp()">Uygulamayı Ana Ekrana Ekle</button>
-    <div class="info">
-        <p>Not: Bu arayüz, Bluetooth üzerinden kod yükleme ve sistem yönetimi için optimize edilmiştir.</p>
+    <div class="bg-[#0f172a] p-6 rounded-3xl w-full max-w-sm border border-[#1e293b] shadow-2xl text-center">
+        <h1 class="text-xl font-bold mb-4 text-sky-400">Çipil Hız Merkezi</h1>
+        
+        <div class="gauge-wrap">
+            <div id="gauge" class="gauge-body"></div>
+            <div class="absolute bottom-0 w-full text-center">
+                <span id="speed-display" class="text-3xl font-bold">0.0</span>
+                <span class="text-sm block">Mbps</span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 mb-6">
+            <div class="bg-[#020617] p-3 rounded-xl border border-[#1e293b]">MB/s<span id="mb-val" class="block font-bold">0.00</span></div>
+            <div class="bg-[#020617] p-3 rounded-xl border border-[#1e293b]">Ping<span id="ping-val" class="block font-bold">0 ms</span></div>
+        </div>
+
+        <button id="test-btn" onclick="runTest()" class="w-full bg-sky-500 py-3 rounded-xl font-bold hover:bg-sky-400 transition mb-3">Testi Başlat</button>
+        <a href="https://github.com/serefturancelik-sudo/cipil/raw/main/app-release.apk" class="block w-full bg-green-600 py-3 rounded-xl font-bold hover:bg-green-500 transition">🚀 APK Olarak İndir</a>
     </div>
-</div>
 
-<script>
-    let deferredPrompt;
+    <script>
+        function runTest() {
+            const btn = document.getElementById('test-btn');
+            btn.disabled = true;
+            btn.innerText = "Ölçülüyor...";
 
-    // Uygulamayı yükleme tetikleyicisi
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-    });
+            // Gerçek bir hız testi simülasyonu
+            let testTime = 3000;
+            let start = Date.now();
+            
+            let interval = setInterval(() => {
+                let speed = Math.random() * (90 - 40) + 40; 
+                let mb = (speed / 8).toFixed(2);
+                let ping = Math.floor(Math.random() * 20) + 5;
+                
+                document.getElementById('speed-display').innerText = speed.toFixed(1);
+                document.getElementById('mb-val').innerText = mb;
+                document.getElementById('ping-val').innerText = ping + " ms";
+                document.getElementById('gauge').style.transform = `rotate(${-135 + (speed * 1.35)}deg)`;
 
-    function installApp() {
-        if (deferredPrompt) {
-            deferredPrompt.prompt();
-            deferredPrompt.userChoice.then((choice) => {
-                deferredPrompt = null;
-            });
-        } else {
-            alert("Tarayıcınızın menüsünden 'Ana Ekrana Ekle' (Add to Home Screen) seçeneğine tıklayarak uygulamayı kurabilirsiniz.");
+                if(Date.now() - start > testTime) {
+                    clearInterval(interval);
+                    btn.disabled = false;
+                    btn.innerText = "Testi Başlat";
+                }
+            }, 200);
         }
-    }
-
-    // VS Code'dan Bluetooth ile bağlanma simülasyonu
-    console.log("Çipil sistemine bağlandı. VS Code üzerinden gönderilen kodlar hazır.");
-</script>
-
+    </script>
 </body>
 </html>
 
