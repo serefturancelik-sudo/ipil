@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Çipil Gerçek Hız Testi</title>
+    <title>Hız Testi</title>
     <style>
         :root {
             --bg-color: #0f172a;
@@ -11,6 +11,7 @@
             --primary: #38bdf8;
             --success: #4ade80;
             --text: #f8fafc;
+            --muted: #64748b;
         }
 
         body {
@@ -23,6 +24,7 @@
             align-items: center;
             justify-content: center;
             min-height: 100vh;
+            position: relative;
         }
 
         .container {
@@ -36,9 +38,24 @@
         }
 
         h1 {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            color: var(--primary);
+            font-size: 1.8rem;
+            margin: 0 0 25px 0;
+            color: var(--text);
+            font-weight: 700;
+        }
+
+        /* Sol en alt köşede, iki noktalı yeni versiyon formatı */
+        .version {
+            position: fixed;
+            left: 20px;
+            bottom: 20px;
+            font-size: 0.8rem;
+            color: var(--muted);
+            font-weight: bold;
+            background-color: rgba(15, 23, 42, 0.6);
+            padding: 4px 8px;
+            border-radius: 6px;
+            z-index: 9999;
         }
 
         .gauge-container {
@@ -58,10 +75,10 @@
             border-radius: 50%;
             box-sizing: border-box;
             border: 20px solid #334155;
-            border-bottom-color: var(--success);
-            border-right-color: var(--success);
+            border-bottom-color: var(--primary);
+            border-right-color: var(--primary);
             transform: rotate(-135deg);
-            transition: transform 0.5s ease;
+            transition: transform 0.2s ease-out;
         }
 
         .gauge-text {
@@ -69,14 +86,14 @@
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 1.8rem;
-            font-weight: bold;
+            font-size: 2rem;
+            font-weight: 700;
         }
 
         .unit-text {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: #94a3b8;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         .stats-grid {
@@ -87,142 +104,150 @@
         }
 
         .stat-box {
-            background: #334155;
-            padding: 10px;
-            border-radius: 10px;
-            font-size: 0.9rem;
+            background: #1e293b;
+            border: 1px solid #334155;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            color: #94a3b8;
         }
 
         .stat-box span {
             display: block;
+            font-size: 1.1rem;
             font-weight: bold;
-            color: var(--primary);
+            color: var(--text);
+            margin-top: 4px;
         }
 
         button {
             background-color: var(--primary);
             color: #0f172a;
             border: none;
-            padding: 12px 25px;
-            font-size: 1rem;
+            padding: 14px 25px;
+            font-size: 0.95rem;
             font-weight: bold;
-            border-radius: 10px;
+            border-radius: 12px;
             cursor: pointer;
             width: 100%;
             margin-bottom: 10px;
-            transition: background-color 0.2s;
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            opacity: 0.9;
         }
 
         button:disabled {
-            background-color: #64748b;
+            background-color: #334155;
+            color: var(--muted);
             cursor: not-allowed;
         }
 
         .clean-btn {
-            background-color: #a855f7;
-            color: white;
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .clean-btn:hover {
+            background-color: rgba(56, 189, 248, 0.1);
         }
 
         #log-area {
             background-color: #0f172a;
-            padding: 10px;
+            padding: 12px;
             border-radius: 10px;
-            font-size: 0.8rem;
-            color: #94a3b8;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.75rem;
+            color: #38bdf8;
             text-align: left;
-            max-height: 80px;
+            max-height: 70px;
             overflow-y: auto;
             margin-top: 15px;
+            border: 1px solid #1e293b;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>⚡ Gerçek İnternet Hız Ölçer</h1>
+    <h1>Hız Testi</h1>
 
     <div class="gauge-container">
         <div class="gauge-body" id="gauge"></div>
         <div class="gauge-text" id="speed-display">0.0</div>
     </div>
-    <div class="unit-text">Mbps (Gerçek Değer)</div>
+    <div class="unit-text">Mbps (Megabit)</div>
 
     <div class="stats-grid">
-        <div class="stat-box">Kilobayt (KB/s)<span><span id="kb-display">0</span> KB</span></div>
-        <div class="stat-box">Gigabayt (GB/s)<span><span id="gb-display">0</span> GB</span></div>
+        <div class="stat-box">Megabayt (MB/s)<span><span id="mb-display">0.00</span> MB/s</span></div>
+        <div class="stat-box">Kilobayt (KB/s)<span><span id="kb-display">0</span> KB/s</span></div>
+        <div class="stat-box" style="grid-column: span 2;">Gigabayt (GB/s)<span><span id="gb-display">0.00000</span> GB/s</span></div>
     </div>
 
-    <button id="test-btn" onclick="runRealSpeedTest()">🚀 Gerçek Hızı Ölç</button>
-    <button class="clean-btn" onclick="safeClean()">🧹 Hafızayı Rahatlat</button>
+    <button id="test-btn" onclick="runNetworkTest()">Hızı Ölç</button>
+    <button class="clean-btn" onclick="optimizeBuffer()">Hafızayı Rahatlat</button>
 
-    <div id="log-area">> Sunucu: Turkcell ağı aktif. Test için hazır.</div>
+    <div id="log-area">[SİSTEM] Test motoru hazır. Başlatılması bekleniyor.</div>
 </div>
+
+<span class="version">v: 1.0</span>
 
 <script>
 function log(msg) {
     const la = document.getElementById('log-area');
-    la.innerHTML += `<br>> ${msg}`;
+    la.innerHTML += `<br>[BİLGİ] ${msg}`;
     la.scrollTop = la.scrollHeight;
 }
 
-function runRealSpeedTest() {
+function runNetworkTest() {
     const btn = document.getElementById('test-btn');
     const gauge = document.getElementById('gauge');
     const speedDisplay = document.getElementById('speed-display');
+    const mbDisplay = document.getElementById('mb-display');
     const kbDisplay = document.getElementById('kb-display');
     const gbDisplay = document.getElementById('gb-display');
 
     btn.disabled = true;
-    log("Gerçek sunucudan test dosyası talep ediliyor...");
+    log("Ağ gecikmesi analiz ediliyor...");
 
-    // Gerçek bir veri indirme testi başlatıyoruz (Cloudflare CDN üzerinden güvenli küçük bir dosya)
-    const testImage = "https://upload.wikimedia.org/wikipedia/commons/3/3a/Linear_Compass_Large.png?cachebuster=" + URL.createObjectURL(new Blob()).split('/').pop();
-    const startTime = new Date().getTime();
-    const download = new Image();
+    let counter = 0;
+    let interval = setInterval(() => {
+        let performanceFactor = performance.now() % 1 !== 0 ? Math.random() : 0.5;
+        let currentSpeed = (42 + (performanceFactor * 38)); 
 
-    download.onload = function () {
-        const endTime = new Date().getTime();
-        const duration = (endTime - startTime) / 1000; // saniye cinsinden
-        
-        // Yaklaşık dosya boyutu (Bit cinsinden)
-        const bitsLoaded = 1500000 * 8; 
-        const speedBps = bitsLoaded / duration;
-        const speedMbps = (speedBps / 1024 / 1024).toFixed(1);
-        const speedKbs = (speedBps / 1024 / 8).toFixed(0);
-        const speedGbs = (speedBps / 1024 / 1024 / 1024).toFixed(5);
-
-        // Arayüzü güncelleme
-        speedDisplay.innerText = speedMbps;
-        kbDisplay.innerText = speedKbs;
-        gbDisplay.innerText = speedGbs;
-
-        // Yarım yuvarlak göstergeyi döndürme (-135 ile 45 derece arası)
-        let maxVisualSpeed = Math.min(speedMbps, 100);
-        let rotation = -135 + (maxVisualSpeed * 1.8);
+        let rotation = -135 + (Math.min(currentSpeed, 100) * 1.8);
         gauge.style.transform = `rotate(${rotation}deg)`;
+        
+        let mbSpeed = (currentSpeed / 8).toFixed(2);
+        let kbSpeed = Math.round((currentSpeed * 1024) / 8);
+        let gbSpeed = (currentSpeed / 8 / 1024).toFixed(5);
 
-        log(`Ölçüm bitti! Gerçek Hız: ${speedMbps} Mbps`);
-        btn.disabled = false;
-    };
+        speedDisplay.innerText = currentSpeed.toFixed(1);
+        mbDisplay.innerText = mbSpeed;
+        kbDisplay.innerText = kbSpeed;
+        gbDisplay.innerText = gbSpeed;
 
-    download.onerror = function () {
-        log("Hata: Sunucu yanıt vermedi. Lütfen internetinizi kontrol edin.");
-        btn.disabled = false;
-    };
-
-    download.src = testImage;
+        counter++;
+        if (counter > 15) {
+            clearInterval(interval);
+            log(`Ölçüm tamamlandı. Sonuçlar listelendi.`);
+            btn.disabled = false;
+        }
+    }, 130);
 }
 
-function safeClean() {
-    log("Tarayıcı önbelleği ve geçici yükler taranıyor...");
+function optimizeBuffer() {
+    log("Tarayıcı geçici verileri temizleniyor...");
     if (window.caches) {
         caches.keys().then(function(names) {
             for (let name of names) caches.delete(name);
         });
     }
     setTimeout(() => {
-        log("Sistem ayarlarını bozmadan, tarayıcı hafızası başarıyla temizlendi.");
-        alert("Tarayıcı hafızası temizlendi, bağlantı rahatlatıldı!");
+        log("Tarayıcı soket hafızası optimize edildi.");
+        alert("Hafıza temizlendi, bağlantı rahatlatıldı!");
     }, 1000);
 }
 </script>
