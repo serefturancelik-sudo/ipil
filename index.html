@@ -4,45 +4,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Çipil OS v1.4</title>
+    <title>Çipil OS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .gauge-body { border: 18px solid #1e293b; border-bottom-color: #38bdf8; border-right-color: #38bdf8; transform: rotate(-135deg); transition: transform 0.5s ease; }
+        body { background: #05070f; color: #fff; font-family: sans-serif; }
     </style>
 </head>
-<body class="bg-gray-950 text-white flex justify-center p-4">
-    <div class="bg-gray-900 p-6 rounded-3xl w-full max-w-sm border border-gray-800 text-center">
-        <h1 class="text-xl font-bold mb-4 text-sky-400">Çipil Hız Testi</h1>
-        
-        <div class="w-48 h-24 mx-auto overflow-hidden relative mb-4">
-            <div id="gauge" class="w-48 h-48 rounded-full gauge-body"></div>
-            <div class="absolute bottom-0 w-full text-center"><span id="speed-display" class="text-2xl font-bold">0.0</span> <span class="text-xs">Mbps</span></div>
+<body class="p-6 flex items-center justify-center min-h-screen">
+    <div class="max-w-sm w-full bg-slate-900 p-8 rounded-3xl shadow-2xl border border-slate-700">
+        <h1 class="text-2xl font-bold text-center text-cyan-400 mb-8">Çipil Hız Analizi</h1>
+        <div class="text-center mb-8">
+            <div id="speed" class="text-6xl font-bold mb-2">0.0</div>
+            <div class="text-cyan-500 font-bold tracking-widest">MBPS</div>
         </div>
-
-        <div class="grid grid-cols-2 gap-2 mb-4 text-sm">
-            <div class="bg-gray-800 p-2 rounded">MB/s <span id="mb-val" class="block font-bold text-sky-400">0.00</span></div>
-            <div class="bg-gray-800 p-2 rounded">Ping <span id="ping-val" class="block font-bold text-sky-400">0 ms</span></div>
+        <div class="grid grid-cols-2 gap-4 mb-8">
+            <div class="bg-slate-800 p-4 rounded-xl text-center">
+                <p class="text-[10px] text-slate-400">DOWNLOAD</p>
+                <p id="down" class="font-bold">0.0 Mbps</p>
+            </div>
+            <div class="bg-slate-800 p-4 rounded-xl text-center">
+                <p class="text-[10px] text-slate-400">UPLOAD</p>
+                <p id="up" class="font-bold">0.0 Mbps</p>
+            </div>
         </div>
-
-        <button id="test-btn" onclick="runTest()" class="w-full bg-sky-500 py-3 rounded-xl font-bold mb-2">Testi Başlat</button>
-        <!-- Burayı GitHub'dan aldığın RAW linkle değiştir -->
-        <a href="https://github.com/serefturancelik-sudo/cipil/raw/main/app-release.apk" class="block w-full bg-green-600 py-3 rounded-xl font-bold">🚀 APK İndir</a>
+        <button id="btn" onclick="startTest()" class="w-full bg-cyan-600 py-4 rounded-xl font-bold text-lg hover:bg-cyan-500 transition">TESTİ BAŞLAT</button>
     </div>
 
     <script>
-        function runTest() {
-            const btn = document.getElementById('test-btn');
+        async function startTest() {
+            const btn = document.getElementById('btn');
             btn.disabled = true;
-            let i = 0;
-            let timer = setInterval(() => {
-                let speed = Math.random() * 80 + 10;
-                document.getElementById('speed-display').innerText = speed.toFixed(1);
-                document.getElementById('mb-val').innerText = (speed / 8).toFixed(2);
-                document.getElementById('ping-val').innerText = Math.floor(Math.random() * 20 + 5) + " ms";
-                document.getElementById('gauge').style.transform = `rotate(${-135 + (speed * 1.35)}deg)`;
-                i++;
-                if(i > 15) { clearInterval(timer); btn.disabled = false; }
-            }, 200);
+            btn.innerText = "Ölçülüyor...";
+            try {
+                // Download
+                const sD = performance.now();
+                const rD = await fetch('https://speed.cloudflare.com/__down?bytes=5000000', {cache: 'no-store'});
+                const bD = await rD.blob();
+                const eD = performance.now();
+                const dS = (bD.size * 8) / ((eD - sD) / 1000) / 1000000;
+                document.getElementById('speed').innerText = dS.toFixed(1);
+                document.getElementById('down').innerText = dS.toFixed(1) + " Mbps";
+                // Upload
+                const data = new Uint8Array(2000000);
+                const sU = performance.now();
+                await fetch('https://speed.cloudflare.com/__up', {method: 'POST', body: data});
+                const eU = performance.now();
+                const uS = (data.length * 8) / ((eU - sU) / 1000) / 1000000;
+                document.getElementById('up').innerText = uS.toFixed(1) + " Mbps";
+            } catch(e) { alert("Bağlantı hatası!"); }
+            btn.disabled = false; btn.innerText = "TESTİ BAŞLAT";
         }
     </script>
 </body>
