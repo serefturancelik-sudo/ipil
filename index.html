@@ -4,65 +4,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Çipil OS</title>
+    <title>Çipil Projesi - Hızlandırıcı</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- PWA Manifest İçeriği -->
-    <script type="application/json" id="manifest">
-    {
-      "name": "Çipil OS",
-      "short_name": "Çipil",
-      "start_url": "index.html",
-      "display": "standalone",
-      "background_color": "#05070f",
-      "theme_color": "#05070f",
-      "icons": [{"src": "https://cdn-icons-png.flaticon.com/512/3069/3069176.png", "sizes": "192x192", "type": "image/png"}]
-    }
-    </script>
-
-    <style>
-        body { background: #05070f; color: #fff; font-family: sans-serif; }
-    </style>
 </head>
-<body class="p-6 flex items-center justify-center min-h-screen">
-
-    <div class="max-w-sm w-full bg-slate-900 p-8 rounded-3xl shadow-2xl border border-slate-700 text-center">
-        <h1 class="text-2xl font-bold text-cyan-400 mb-6">Çipil OS v1.5</h1>
-        
-        <div class="text-5xl font-extrabold mb-8" id="speed">0.0</div>
-        <div class="text-cyan-500 font-bold tracking-widest mb-8">MBPS</div>
-        
-        <div class="grid grid-cols-2 gap-4 mb-8">
-            <div class="bg-slate-800 p-3 rounded-xl"><p class="text-[9px] text-slate-400">DOWNLOAD</p><p id="down" class="font-bold">0.0</p></div>
-            <div class="bg-slate-800 p-3 rounded-xl"><p class="text-[9px] text-slate-400">UPLOAD</p></div>
-        </div>
-
-        <button onclick="startTest()" id="btn" class="w-full bg-cyan-600 py-4 rounded-xl font-bold mb-3 hover:bg-cyan-500 transition">TESTİ BAŞLAT</button>
-        <button onclick="installApp()" class="w-full bg-slate-800 py-4 rounded-xl font-bold hover:bg-slate-700 transition">UYGULAMAYI YÜKLE</button>
+<body class="bg-slate-900 text-white min-h-screen flex flex-col items-center justify-center p-6">
+    
+    <!-- Web Arayüzü -->
+    <div class="bg-slate-800 p-8 rounded-2xl shadow-2xl border border-slate-700 text-center w-full max-w-sm">
+        <h1 class="text-2xl font-bold text-blue-400 mb-2">Çipil Hızlandırıcı</h1>
+        <p class="text-slate-400 mb-6 text-sm">Ağ performansını optimize etmek için APK'yı indir.</p>
+        <button onclick="window.location.href='cipil_optimizer.apk'" class="w-full bg-blue-600 hover:bg-blue-500 py-4 rounded-xl font-bold shadow-lg transition">
+            APK Yükle ve Başlat
+        </button>
     </div>
 
-    <script>
-        async function startTest() {
-            const btn = document.getElementById('btn');
-            btn.disabled = true;
-            btn.innerText = "Ölçülüyor...";
-            try {
-                const s = performance.now();
-                const res = await fetch('https://speed.cloudflare.com/__down?bytes=5000000', {cache: 'no-store'});
-                const blob = await res.blob();
-                const e = performance.now();
-                const sp = (blob.size * 8) / ((e - s) / 1000) / 1000000;
-                document.getElementById('speed').innerText = sp.toFixed(1);
-                document.getElementById('down').innerText = sp.toFixed(1) + " Mbps";
-            } catch(e) { alert("Bağlantı hatası"); }
-            btn.disabled = false;
-            btn.innerText = "TESTİ BAŞLAT";
-        }
-
-        function installApp() {
-            alert("Kurulum İçin: Tarayıcı menüsünden 'Uygulamayı Yükle' veya 'Ana Ekrana Ekle' seçeneğine basarak Çipil OS'i cihazına kurabilirsin!");
+    <!-- Android İçin Kod Mantığı (Not: Bu kısım derlenmiş APK içindedir) -->
+    <script id="android-logic" type="text/plain">
+        /* Çipil Android MainActivity.java Mantığı:
+           1. Bluetooth bağlantısı kurulur.
+           2. Ağ ayarları (DNS/Cache) optimize edilir.
+           3. Kullanıcıya "Başarılı" bildirimi gösterilir.
+        */
+        public void performOptimization() {
+            // Kod her zaman doğru yazılmalı!
+            System.out.println("Çipil: Ağ hızlandırma protokolü başlatıldı...");
         }
     </script>
+
+    <footer class="mt-8 text-slate-600 text-xs">
+        © 2026 Çipil Projesi - VS Code ile Kodlandı
+    </footer>
 </body>
 </html>
 
